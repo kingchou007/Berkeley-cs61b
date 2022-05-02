@@ -1,19 +1,15 @@
-import java.util.LinkedList;
-
 public class LinkedListDeque<T> {
     /** T can represent all data types */
-
-    private IntNode first; // why private here
-    private IntNode last;
+    private Node first;
+    private Node last;
     private int size; // the length of the list
 
     /** constructor */
-    private class IntNode {
-
+    private class Node {
         private T item;
-        private IntNode next, prev; // pointer
+        private Node next, prev; // pointer
 
-        public IntNode(T item, IntNode next, IntNode prev) {
+        public Node(T item, Node next, Node prev) {
             this.item = item;
             this.next = next;
             this.prev = prev;
@@ -44,9 +40,15 @@ public class LinkedListDeque<T> {
         return result;
     }
 
+    private LinkedListDeque getremove() {
+        LinkedListDeque b = this.copy();
+        b.removeFirst();
+        return b;
+    }
+
     public void addFirst(T x){
+        first = new Node(x, first, null);
         size += 1;
-        first = new IntNode(x, first, null);
 
         if (first.next != null){
             first.next.prev = first;
@@ -54,14 +56,13 @@ public class LinkedListDeque<T> {
 
         if (last == null){
             // first = last;
-            first = null;
+            last = first;
         }
     }
 
-
     public void addLast(T x){
+        last = new Node(x, null, last);
         size+=1;
-        last = new IntNode(x, null, last);
 
         if (last.prev != null) {
             last.prev.next = last;
@@ -72,10 +73,10 @@ public class LinkedListDeque<T> {
         }
     }
 
+
     public boolean isEmpty() {
         return (first == null && last == null);
     }
-
 
 
     /** get the size of linked list */
@@ -83,13 +84,76 @@ public class LinkedListDeque<T> {
         return size;
     }
 
-//    public void printDeque() {
-//    }
+    /**
+     * Helper Function to printList
+     * Prints the items in the deque from first to last, separated by a space.
+     * Once all the items have been printed, print out a new line
+     */
+    public void printDeque() {
+        if (this.isEmpty()) {
+            System.out.println("List is Empty!");
 
-//    public T removeFirst() {}
+        } else {
+            Node temp = first;
+            System.out.print("List: ");
+            while (temp != last) {
+                System.out.print(temp.item.toString() + " -> ");
+                temp = temp.next;
+            }
+            System.out.println(temp.item.toString() + " -> null");
+        }
+    }
 
-//    public T removeLast(){}
+    public T removeFirst() {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            size -= 1;
+            T result = first.item;
+            first = first.next;
+            if (first == null) {  //empty now!
+                last = null;
+                return result;
+            }
+            first.prev = null;
+            return result;
+        }
+    }
 
+    public T removeLast() {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            size -= 1;
+            T result = last.item;
+            last = last.prev;
+            if (last == null) {
+                first = null;
+                return result;
+            }
+            last.next = null;
+            return result;
+        }
+    }
+
+    public T get(int index) {
+        int i = index;
+        Node p = first;
+        while (i != 0) {
+            p = p.next;
+            i--;
+        }
+        return p.item;
+    }
+
+
+    public T getRecursive(int index) {
+        if (index == 0) {
+            return first.item;
+        } else {
+            return (T) this.getremove().getRecursive(index - 1);
+        }
+    }
 
 
 }
