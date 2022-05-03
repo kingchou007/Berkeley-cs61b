@@ -1,13 +1,9 @@
 public class LinkedListDeque<T> {
     /** T can represent all data types */
-    private Node first;
-    private Node last;
-    private int size; // the length of the list
-
-    /** constructor */
+    // node inner class
     private class Node {
         private T item;
-        private Node next, prev; // pointer
+        private Node next, prev; // Stores pointer to next element and previous element
 
         public Node(T item, Node next, Node prev) {
             this.item = item;
@@ -16,9 +12,16 @@ public class LinkedListDeque<T> {
         }
     }
 
+    // member variables
+    private Node first; // head node
+    private Node last; // tail node
+    private int size; // the length of the list
+
+
+    // constructor - initializes first, last, and size
     public LinkedListDeque() {
         first = null;
-        last = null;
+        last = null; // null initially
         size = 0;
     }
 
@@ -32,21 +35,16 @@ public class LinkedListDeque<T> {
         // create an entirely new LinkedListDeque
         LinkedListDeque<T> result = new LinkedListDeque<>();
 
-        // [source code]. https://www.youtube.com/watch?v=JNroRiEG7U4
+        // [source code: https://www.youtube.com/watch?v=JNroRiEG7U4]
         for (int i = 0; i < this.size; i++){
-            result.addLast((T) this.get(i));
+            result.addLast(this.get(i));
         }
 
         return result;
     }
 
-    private LinkedListDeque getremove() {
-        LinkedListDeque b = this.copy();
-        b.removeFirst();
-        return b;
-    }
-
     public void addFirst(T x){
+        Node p = first;
         first = new Node(x, first, null);
         size += 1;
 
@@ -55,25 +53,32 @@ public class LinkedListDeque<T> {
         }
 
         if (last == null){
-            // first = last;
             last = first;
         }
     }
 
     public void addLast(T x){
+        size++;
+
+        // Node(x, next, prev)
         last = new Node(x, null, last);
-        size+=1;
 
         if (last.prev != null) {
-            last.prev.next = last;
+            last.prev.next = last; // ?
         }
 
+        /**
+         * TODO: use "Sentinel Nodes" replace this part
+         */
         if (first == null) {
             first = last;
         }
+
+
     }
 
 
+    // Helper Function that checks if List is empty or not
     public boolean isEmpty() {
         return (first == null && last == null);
     }
@@ -104,6 +109,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+
     public T removeFirst() {
         if (this.isEmpty()) {
             return null;
@@ -119,6 +125,7 @@ public class LinkedListDeque<T> {
             return result;
         }
     }
+
 
     public T removeLast() {
         if (this.isEmpty()) {
@@ -136,6 +143,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+
     public T get(int index) {
         int i = index;
         Node p = first;
@@ -147,22 +155,20 @@ public class LinkedListDeque<T> {
     }
 
 
+    private LinkedListDeque getRemove() {
+        LinkedListDeque b = this.copy();
+        b.removeFirst();
+        return b;
+    }
+
+
     public T getRecursive(int index) {
         if (index == 0) {
             return first.item;
         } else {
-            return (T) this.getremove().getRecursive(index - 1);
+            return (T) this.getRemove().getRecursive(index - 1);
         }
     }
 
 
 }
-
-
-
-
-
-
-
-
-
