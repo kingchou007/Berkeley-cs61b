@@ -7,6 +7,7 @@
 
 public class ArrayDeque<T> {
     private final int FACTOR = 2;
+
     private int size = 0;
     private T[] arr;
 
@@ -22,13 +23,13 @@ public class ArrayDeque<T> {
 
     /** Resizes the array to the target capacity */
     // cs61b sp18 ch2.5, source form: https://youtu.be/tLcinQx5VnY
-    private void resize(int length, int position, int position1) {
-        if (length <= 16) {
-            length = 16;
+    private void resize(int capacity, int position, int position1) {
+        if (capacity <= 16) {
+            capacity = 16;
         }
 
         // Create a new array to store data
-        T[] newArr = (T[]) new Object[length];
+        T[] newArr = (T[]) new Object[capacity];
 
         // Copy the original data of array to new array
         // arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
@@ -37,13 +38,20 @@ public class ArrayDeque<T> {
     }
 
 
+    /**
+     *  For arrays of length 16 or more, your usage factor should always be at least 25%.
+     *  For smaller arrays, your usage factor can be arbitrarily low.
+     */
+
+
     public void addFirst(T item) {
         int al = arr.length;
         if (size == arr.length) {
-            al = size * FACTOR; // https://youtu.be/oysadh63NxY
+            // al = size * FACTOR; // https://youtu.be/oysadh63NxY
+            resize(size * FACTOR, 0, 1);
         }
 
-        resize(al, 0, 1);
+
         arr[0] = item;
         size += 1;
     }
