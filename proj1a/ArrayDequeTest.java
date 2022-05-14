@@ -23,11 +23,7 @@ public class ArrayDequeTest {
         // should be empty
         boolean passed = checkEmpty(true, arr1.isEmpty());
 
-
-
         arr1.addFirst(10);
-        System.out.print("Array ----> ");
-        arr1.printDeque();
 
         // should not be empty
         passed = checkEmpty(false, arr1.isEmpty()) && passed;
@@ -35,6 +31,14 @@ public class ArrayDequeTest {
 
         arr1.removeFirst();
         // should be empty
+        passed = checkEmpty(true, arr1.isEmpty()) && passed;
+
+        /** test addLast */
+        arr1.addLast(9);
+
+        passed = checkEmpty(false, arr1.isEmpty()) && passed;
+
+        arr1.removeLast();
         passed = checkEmpty(true, arr1.isEmpty()) && passed;
 
         printTestStatus(passed);
