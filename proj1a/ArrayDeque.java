@@ -47,10 +47,10 @@ public class ArrayDeque<T> {
     public void addFirst(T item) {
         int al = arr.length;
         if (size == arr.length) {
-            // al = size * FACTOR; // https://youtu.be/oysadh63NxY
-            resize(size * FACTOR, 0, 1);
+            al = size * FACTOR; // https://youtu.be/oysadh63NxY
         }
 
+        resize(al, 0, 1);
 
         arr[0] = item;
         size += 1;
@@ -61,6 +61,7 @@ public class ArrayDeque<T> {
         if (size == arr.length) {
             resize(size * FACTOR, 0, 0);
         }
+        // resize(al, 0, 0)
         arr[size] = item;
         size += 1;
     }
