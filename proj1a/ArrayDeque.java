@@ -38,12 +38,6 @@ public class ArrayDeque<T> {
     }
 
 
-    /**
-     *  For arrays of length 16 or more, your usage factor should always be at least 25%.
-     *  For smaller arrays, your usage factor can be arbitrarily low.
-     */
-
-
     public void addFirst(T item) {
         int al = arr.length;
         if (size == arr.length) {
